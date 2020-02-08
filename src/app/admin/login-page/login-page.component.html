@@ -1,1 +1,72 @@
-<p>login-page works!</p>
+<form class="card" [formGroup]="form" (ngSubmit)="submit()">
+    <h2>Login</h2>
+
+    <div class="alert alert-danger" *ngIf="auth.error$ | async as error">
+        {{ error }}
+    </div>
+    <div
+        [ngClass]="{invalid: form.get('email').touched && form.get('email').invalid}"
+        class="form-control"
+    >
+        <label for="email">Email:</label>
+        <input type="email" id="email" formControlName="email">
+        <div
+            class="validation"
+            *ngIf="form.get('email').touched && form.get('email').invalid"
+        >
+            <small
+                *ngIf="form.get('email').errors.required"
+            >
+                Email is required
+            </small>
+            <small
+                *ngIf="form.get('email').errors.email"
+            >
+                Email will be valid
+            </small>
+        </div>
+    </div>
+    <div
+        [ngClass]="{invalid: form.get('password').touched && form.get('password').invalid}"
+        class="form-control">
+        <label for="password">Password:</label>
+        <input type="password" id="password" formControlName="password">
+        <div
+            class="validation"
+            *ngIf="form.get('password').touched && form.get('password').invalid"
+        >
+            <small
+                *ngIf="form.get('password').errors.required"
+            >
+                Password required!!!
+            </small>
+            <small
+                *ngIf="form.get('password').errors.minlength"
+            >
+                Password must be at least
+                {{form.get('password').errors.minlength.requiredLength}}
+                characters. Now
+                {{form.get('password').errors.minlength.actualLength}}
+                characters!!!
+            </small>
+            <small
+                *ngIf="form.get('password').errors.maxlength"
+            >
+                Password must be
+                {{form.get('password').errors.maxlength.requiredLength}}
+                characters or less characters. Now
+                {{form.get('password').errors.maxlength.actualLength}}
+                characters!!!
+            </small>
+        </div>
+    </div>
+    <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="form.invalid || submitted"
+    >
+        Submit
+    </button>
+
+</form>
+
